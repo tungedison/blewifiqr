@@ -1,0 +1,8 @@
+
+#bgDiv {
+    width: 330px;
+}
+
+@media (orientation: portrait) {
+    #bgDiv { margin-top:25px; margin-left:auto; margin-right:auto;}
+}
