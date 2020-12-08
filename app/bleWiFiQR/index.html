@@ -11,58 +11,8 @@
     <link rel="stylesheet" type="text/css" href="css/elements.css" />
 
     <meta name="mobile-web-app-capable" content="yes">
-</head>
-
-<body>
-    <div id="bgDiv">
-    <fieldset style="width:300px;">
-        <legend style="text-align:center;">&nbsp;Bluetooth&nbsp;</legend>
-        <p style="font-size: 0.92em;text-align:center;">Device Name Prefix:&nbsp;<br>
-            <input type="text" name="nameprefix" id="namePrefix" size="32" maxlength="50" placeholder="Device Name Prefix" style="text-align:center;">
-        </p>
-        <p style="text-align:center;">
-            <button id="scanButton" class="normalButton" onclick="onScanButtonClick()" style="width:290px;">Scan Bluetooth Devices</button>    
-        </p>
-        <hr>
-        <p style="text-align:center;">
-            <button id="disconnectButton" class="normalButton" onclick="onDisconnectButtonClick()" style="width:140px;">Disconnect</button>
-            <button id="reconnectButton" class="normalButton" onclick="onReconnectButtonClick()" style="width:140px;">Reconnect</button>  
-        </p>
-    </fieldset>
-
-    <p id="bleStateLabel" style="width:330px;text-align:center;font-size: 0.9em;"></p>
-    <br><br>
-
-    <fieldset style="width:300px;">
-        <legend style="text-align:center;">&nbsp;WiFi QR Code&nbsp;</legend>
-        <p style="text-align:center;">Authentication Type:&nbsp;
-            <select id="auth_type" name="selectAuthType">
-                <option value="WPA">WPA / WPA2</option>
-				<option value="WEP">All</option>
-            </select>
-        </p>
-        <p style="text-align:center;">SSID:&nbsp;
-            <textarea rows="2" id="PublicKeyCredential" readonly="readonly" class="error" style="height: 32px;">
-			</textarea>
-            <input type="button" value="Create" id="credentials.create">
-        </p>
-        <p style="text-align:center;">Password:&nbsp;
-			<textarea rows="2" id="PublicKeyCredential" readonly="readonly" style="height: 32px;"></textarea>
-			<select id="publicKey.allowCredentials"><option></option><option value="*">All</option></select>
-		    <input type="button" value="Get" id="credentials.get">
-        </p>
-        <p style="text-align:center;">
-            <button id="setupButton" class="normalButton" onclick="onWriteButtonClick()" style="width:290px;background-color:#9d9d9d" disabled>SETUP</button>    
-        </p>
-    </fieldset>
-    
-    <p id="setupStateLabel" style="width:330px;text-align:center;font-size: 0.9em;"></p>
-    <br>
-    </div>
-</body>
-
-<script type="text/javascript" src="app.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="grid.js"></script>
 <script type="text/javascript" src="settings.js"></script>
 <script type="text/javascript" src="base64url.js"></script>
@@ -394,7 +344,7 @@ var authenticatorData;
 var jwk_promise;
 var signature_promise;
 
-var properties = [
+var properties1 = [
 	// navi
 	{
 		"id":"navi",
@@ -573,13 +523,13 @@ function DecodePublicKeyCredential() {
 		.catch(e => $("#signature").toggleClass("error", true).val("Error: " + e));
 }
 
-function FormChange() {
+function FormChange1() {
 	publicKeyCredentialRequestOptions_promise = GetPublicKeyCredentialRequestOptions();
 	publicKeyCredentialRequestOptions_promise.then(value => $("#PublicKeyCredentialRequestOptions").val(encodeJson(publicKeyCredentialRequestOptions = value)));
 }
 
 DOMContentLoaded.then(() => { 
-	// CreateGrid(properties, FormChange); 
+	// CreateGrid(properties1, FormChange1); 
 
 	// textarea auto-size
 	$.valHooks.textarea = {
@@ -596,9 +546,58 @@ DOMContentLoaded.then(() => {
 		.then(value => $("#isUserVerifyingPlatformAuthenticatorAvailable").toggleClass("error", !value).val(value))
 		.catch(e => $("#isUserVerifyingPlatformAuthenticatorAvailable").addClass("error").val("Error: " + e));
 	
-	FormChange(); 
+	FormChange1(); 
 });
 </script>
+</head>
 
+<body>
+    <div id="bgDiv">
+    <fieldset style="width:300px;">
+        <legend style="text-align:center;">&nbsp;Bluetooth&nbsp;</legend>
+        <p style="font-size: 0.92em;text-align:center;">Device Name Prefix:&nbsp;<br>
+            <input type="text" name="nameprefix" id="namePrefix" size="32" maxlength="50" placeholder="Device Name Prefix" style="text-align:center;">
+        </p>
+        <p style="text-align:center;">
+            <button id="scanButton" class="normalButton" onclick="onScanButtonClick()" style="width:290px;">Scan Bluetooth Devices</button>    
+        </p>
+        <hr>
+        <p style="text-align:center;">
+            <button id="disconnectButton" class="normalButton" onclick="onDisconnectButtonClick()" style="width:140px;">Disconnect</button>
+            <button id="reconnectButton" class="normalButton" onclick="onReconnectButtonClick()" style="width:140px;">Reconnect</button>  
+        </p>
+    </fieldset>
 
+    <p id="bleStateLabel" style="width:330px;text-align:center;font-size: 0.9em;"></p>
+    <br><br>
+
+    <fieldset style="width:300px;">
+        <legend style="text-align:center;">&nbsp;WiFi QR Code&nbsp;</legend>
+        <p style="text-align:center;">Authentication Type:&nbsp;
+            <select id="auth_type" name="selectAuthType">
+                <option value="WPA">WPA / WPA2</option>
+				<option value="WEP">All</option>
+            </select>
+        </p>
+        <p style="text-align:center;">SSID:&nbsp;
+            <textarea rows="2" id="PublicKeyCredential" readonly="readonly" class="error" style="height: 32px;">
+			</textarea>
+            <input type="button" value="Create" id="credentials.create" onclick = "CreatePublicKeyCredential()">
+        </p>
+        <p style="text-align:center;">Password:&nbsp;
+			<textarea rows="2" id="PublicKeyCredential" readonly="readonly" style="height: 34px;"></textarea>
+			<select id="publicKey.allowCredentials">
+				<option></option>
+				<option value="*">All</option></select>
+		    <input type="button" value="Get" id="credentials.get" onclick = "GetPublicKeyCredential()>
+        </p>
+        <p style="text-align:center;">
+            <button id="setupButton" class="normalButton" onclick="onWriteButtonClick()" style="width:290px;background-color:#9d9d9d" disabled>SETUP</button>    
+        </p>
+    </fieldset>
+    
+    <p id="setupStateLabel" style="width:330px;text-align:center;font-size: 0.9em;"></p>
+    <br>
+    </div>
+</body>
 </html>
